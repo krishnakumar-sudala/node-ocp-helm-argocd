@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<your-user>/node-ocp-helm-argocd.git
+    repoURL: https://github.com/krishnakumar-sudala/node-ocp-helm-argocd.git
     targetRevision: main
     path: helm/node-ocp-app
     helm:
