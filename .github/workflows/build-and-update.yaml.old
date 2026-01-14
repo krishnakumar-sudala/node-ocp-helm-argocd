@@ -1,0 +1,38 @@
+name: Build and Update Image Tag
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+- name: Set image tag
+        id: vars
+        run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+- name: Login to OpenShift internal registry
+        run: |
+          echo "${{ secrets.OCP_REGISTRY_TOKEN }}" | \
+          docker login -u developer --password-stdin \
+          default-route-openshift-image-registry.apps-crc.testing
+
+      - name: Build image
+        run: |
+          docker build -t default-route-openshift-image-registry.apps-crc.testing/node-ocp-demo/node-ocp-app:${TAG} .
+
+      - name: Push image
+        run: |
+          docker push default-route-openshift-image-registry.apps-crc.testing/node-ocp-demo/node-ocp-app:${TAG}
+
+      - name: Update Helm values.yaml
+        run: |
+          sed -i "s/tag:.*/tag: \"${TAG}\"/" helm/node-ocp-app/values.yaml
+
+      - name: Commit updated values.yaml
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add helm/node-ocp-app/values.yaml
+          git commit -m "Update image tag to ${TAG}"
+          git push
