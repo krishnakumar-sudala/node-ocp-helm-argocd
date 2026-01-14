@@ -1,12 +1,10 @@
-name: Build and Push to GHCR
+name: Build and Update Image Tag
 on:
   push:
     branches: ["main"]
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -15,22 +13,22 @@ jobs:
         id: vars
         run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Login to GHCR
+      - name: Login to OpenShift internal registry
         run: |
-          echo "${{ secrets.GHCR_TOKEN }}" | \
-          docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.OCP_REGISTRY_TOKEN }}" | \
+          docker login -u developer --password-stdin \
+          default-route-openshift-image-registry.apps-crc.testing
 
       - name: Build image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/node-ocp-app:${TAG} .
+          docker build -t default-route-openshift-image-registry.apps-crc.testing/node-ocp-demo/node-ocp-app:${TAG} .
 
       - name: Push image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/node-ocp-app:${TAG}
+          docker push default-route-openshift-image-registry.apps-crc.testing/node-ocp-demo/node-ocp-app:${TAG}
 
       - name: Update Helm values.yaml
         run: |
-          sed -i "s|repository:.*|repository: ghcr.io/${{ github.repository_owner }}/node-ocp-app|" helm/node-ocp-app/values.yaml
           sed -i "s/tag: .*/tag: \"${TAG}\"/" helm/node-ocp-app/values.yaml
 
       - name: Commit updated values.yaml
@@ -38,5 +36,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add helm/node-ocp-app/values.yaml
-          git commit -m "Update GHCR image tag to ${TAG}" || echo "No changes to commit"
+          git commit -m "Update image tag to ${TAG}"
           git push
