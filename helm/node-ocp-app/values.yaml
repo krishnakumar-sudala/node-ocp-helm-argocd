@@ -7,15 +7,15 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 #image:
- # repository: default-route-openshift-image-registry.apps-crc.testing/node-ocp-demo/node-ocp-app
+ # repository: ghcr.io/krishnakumar-sudala/node-ocp-app
   # This sets the pull policy for images.
   #pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  #tag: "v2"
+  #tag: "1768392758"
 
 image:
   repository: ghcr.io/krishnakumar-sudala/node-ocp-app
-  tag: "latest"
+  tag: "1768392758"
   pullPolicy: Always
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
