@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-ocp-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/krishnakumar-sudala/node-ocp-helm-argocd.git
+    targetRevision: main
+    path: helm/node-ocp-app
+    helm:
+      valuesFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: node-ocp-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
