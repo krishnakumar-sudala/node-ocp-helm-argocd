@@ -15,7 +15,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/krishnakumar-sudala/node-ocp-app
-  tag: "1768392758"
+  tag: "1768480733"
   pullPolicy: Always
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
