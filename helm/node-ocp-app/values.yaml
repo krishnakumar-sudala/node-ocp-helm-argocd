@@ -11,7 +11,7 @@ replicaCount: 1
   # This sets the pull policy for images.
   #pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  #tag: "1768392758"
+  #tag: "1768480733"
 
 image:
   repository: ghcr.io/krishnakumar-sudala/node-ocp-app
