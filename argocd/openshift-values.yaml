@@ -1,0 +1,5 @@
+redis:
+  securityContext:
+    enabled: false
+  containerSecurityContext:
+    enabled: false
