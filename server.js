@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
-  res.send(`Hello from Node on OCP after all fixes! Version: ${process.env.APP_VERSION || 'dev'}`);
+  res.send(`Hello from Node on OCP after all fixes and AUTOSYNC!!! Version: ${process.env.APP_VERSION || 'dev'}`);
 });
 
 app.listen(port, () => {
