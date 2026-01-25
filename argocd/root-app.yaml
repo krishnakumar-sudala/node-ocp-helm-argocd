@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: 'https://github.com/krishnakumar-sudala/node-ocp-helm-argocd.git'
     targetRevision: main
-    path: argocd   # Path to the directory containing the Application manifest root-app.yaml
+    path: argocd/apps   # Path to the directory containing the Application manifest root-app.yaml
 
   destination:
     server: 'https://kubernetes.default.svc'
@@ -22,7 +22,7 @@ spec:
         - /status
         - /metadata/annotations
         - /metadata/finalizers
-        
+
   syncPolicy:
     automated:
       prune: true
