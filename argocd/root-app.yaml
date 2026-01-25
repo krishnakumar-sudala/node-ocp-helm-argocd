@@ -6,6 +6,14 @@ metadata:
 spec:
   project: default
 
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      jsonPointers:
+        - /status
+        - /metadata/annotations
+        - /metadata/finalizers
+
   source:
     repoURL: 'https://github.com/krishnakumar-sudala/node-ocp-helm-argocd.git'
     targetRevision: main
@@ -21,3 +29,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
