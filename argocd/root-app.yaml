@@ -6,14 +6,6 @@ metadata:
 spec:
   project: default
 
-  ignoreDifferences:
-    - group: argoproj.io
-      kind: Application
-      jsonPointers:
-        - /status
-        - /metadata/annotations
-        - /metadata/finalizers
-
   source:
     repoURL: 'https://github.com/krishnakumar-sudala/node-ocp-helm-argocd.git'
     targetRevision: main
@@ -22,7 +14,15 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd   # Namespace where ArgoCD is installed
-
+ 
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      jsonPointers:
+        - /status
+        - /metadata/annotations
+        - /metadata/finalizers
+        
   syncPolicy:
     automated:
       prune: true
